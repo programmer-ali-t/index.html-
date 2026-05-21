@@ -12,416 +12,864 @@
 
 <style>
 
+/* ========================= */
+/* RESET */
+/* ========================= */
+
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
 }
 
+:root{
+
+--bg:#020617;
+--card:rgba(255,255,255,.04);
+--border:rgba(255,255,255,.08);
+
+--cyan:#00e5ff;
+--blue:#3b82f6;
+--white:#ffffff;
+--text:#cbd5e1;
+
+}
+
 body{
+
 font-family:'Cairo',sans-serif;
 background:
-radial-gradient(circle at top,#1e3a8a 0%,#0f172a 45%,#020617 100%);
-overflow-x:hidden;
+radial-gradient(circle at top,#0f172a 0%,#020617 50%);
 color:white;
+overflow-x:hidden;
 min-height:100vh;
+
 }
 
-/* Animated Background */
+/* ========================= */
+/* BACKGROUND */
+/* ========================= */
 
-body::before{
-content:'';
+.bg-grid{
+
 position:fixed;
-width:900px;
-height:900px;
-background:#00e5ff;
-filter:blur(220px);
+inset:0;
+background-image:
+linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+
+background-size:50px 50px;
+z-index:-5;
+
+}
+
+.glow{
+
+position:fixed;
+width:800px;
+height:800px;
+border-radius:50%;
+filter:blur(180px);
 opacity:.12;
+z-index:-4;
+
+}
+
+.glow1{
+background:var(--cyan);
 top:-300px;
-left:-200px;
-animation:float 10s ease-in-out infinite;
-z-index:-1;
+left:-250px;
+animation:move1 10s infinite ease-in-out;
 }
 
-body::after{
-content:'';
-position:fixed;
-width:700px;
-height:700px;
-background:#3b82f6;
-filter:blur(220px);
-opacity:.12;
-bottom:-250px;
-right:-150px;
-animation:float2 12s ease-in-out infinite;
-z-index:-1;
+.glow2{
+background:var(--blue);
+bottom:-300px;
+right:-250px;
+animation:move2 12s infinite ease-in-out;
 }
 
-@keyframes float{
-0%,100%{transform:translateY(0)}
-50%{transform:translateY(40px)}
+@keyframes move1{
+
+0%,100%{
+transform:translateY(0);
 }
 
-@keyframes float2{
-0%,100%{transform:translateY(0)}
-50%{transform:translateY(-40px)}
+50%{
+transform:translateY(50px);
 }
 
-/* Loading */
+}
+
+@keyframes move2{
+
+0%,100%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(-50px);
+}
+
+}
+
+/* ========================= */
+/* LOADING */
+/* ========================= */
 
 .loader{
+
 position:fixed;
 inset:0;
 background:#020617;
 display:flex;
-flex-direction:column;
 justify-content:center;
 align-items:center;
-z-index:9999;
+flex-direction:column;
+z-index:99999;
 transition:1s;
+
 }
 
 .loader h1{
+
 font-family:'Orbitron',sans-serif;
-font-size:42px;
-background:linear-gradient(90deg,#00e5ff,#60a5fa,#fff);
+font-size:48px;
+font-weight:800;
+
+background:linear-gradient(90deg,var(--cyan),var(--blue),white);
+
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
+
 margin-bottom:15px;
+
 }
 
 .loader p{
+
 color:#94a3b8;
-font-size:18px;
 margin-bottom:30px;
+
 }
 
 .loading-bar{
-width:320px;
+
+width:340px;
 height:10px;
 background:#111827;
-border-radius:30px;
+border-radius:50px;
 overflow:hidden;
+
 }
 
 .loading-fill{
+
 height:100%;
 width:0%;
-background:linear-gradient(90deg,#00e5ff,#3b82f6);
-animation:loading 3s linear forwards;
+
+background:
+linear-gradient(90deg,var(--cyan),var(--blue));
+
+animation:load 3s linear forwards;
+
 }
 
-@keyframes loading{
-100%{width:100%;}
-}
+@keyframes load{
 
-/* Main */
-
-.container{
-padding:25px;
-max-width:1600px;
-margin:auto;
-}
-
-.header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:30px;
-flex-wrap:wrap;
-gap:20px;
-}
-
-.logo{
-font-family:'Orbitron',sans-serif;
-font-size:42px;
-font-weight:800;
-background:linear-gradient(90deg,#00e5ff,#60a5fa,#ffffff);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-}
-
-.subtitle{
-color:#94a3b8;
-margin-top:5px;
-}
-
-.authors{
-display:flex;
-gap:15px;
-flex-wrap:wrap;
-}
-
-.badge{
-padding:14px 24px;
-border-radius:20px;
-background:rgba(255,255,255,.05);
-border:1px solid rgba(255,255,255,.08);
-backdrop-filter:blur(20px);
-box-shadow:0 0 25px rgba(0,0,0,.25);
-font-weight:700;
-}
-
-/* Layout */
-
-.grid{
-display:grid;
-grid-template-columns:1.2fr .8fr;
-gap:25px;
-}
-
-.card{
-background:rgba(255,255,255,.04);
-border:1px solid rgba(255,255,255,.08);
-backdrop-filter:blur(25px);
-border-radius:35px;
-padding:25px;
-position:relative;
-overflow:hidden;
-box-shadow:
-0 10px 40px rgba(0,0,0,.35),
-inset 0 0 25px rgba(255,255,255,.02);
-}
-
-.card::before{
-content:'';
-position:absolute;
-inset:0;
-background:linear-gradient(140deg,rgba(255,255,255,.04),transparent);
-pointer-events:none;
-}
-
-.title{
-font-size:26px;
-font-weight:800;
-margin-bottom:25px;
-color:#dbeafe;
-}
-
-/* Simulator */
-
-.simulator{
-height:550px;
-position:relative;
-display:flex;
-justify-content:center;
-align-items:center;
-overflow:hidden;
-}
-
-.wire{
-position:absolute;
-width:80%;
-height:8px;
-background:#00d9ff;
-border-radius:30px;
-box-shadow:0 0 35px #00d9ff;
-}
-
-.capacitor{
-display:flex;
-gap:28px;
-position:absolute;
-z-index:2;
-transform:perspective(1000px) rotateY(-12deg);
-}
-
-.plate{
-width:20px;
-height:200px;
-border-radius:12px;
-background:linear-gradient(#ffffff,#00d9ff);
-box-shadow:
-0 0 35px #00d9ff,
-0 0 70px rgba(0,229,255,.5);
-animation:pulse 1.5s infinite;
-}
-
-@keyframes pulse{
-0%,100%{
-transform:scaleY(1);
-opacity:.8;
-}
-50%{
-transform:scaleY(1.08);
-opacity:1;
-}
-}
-
-/* Electrons */
-
-.electron{
-position:absolute;
-width:18px;
-height:18px;
-background:#00e5ff;
-border-radius:50%;
-box-shadow:0 0 20px #00e5ff;
-opacity:0;
-}
-
-/* Control Panel */
-
-.panel{
-display:flex;
-flex-direction:column;
-gap:18px;
-}
-
-.box{
-background:rgba(255,255,255,.04);
-padding:18px;
-border-radius:22px;
-border:1px solid rgba(255,255,255,.08);
-}
-
-.box label{
-display:block;
-margin-bottom:12px;
-font-weight:700;
-color:#7dd3fc;
-}
-
-input[type=range],
-select{
+100%{
 width:100%;
 }
 
+}
+
+/* ========================= */
+/* APP */
+/* ========================= */
+
+.app{
+
+padding:25px;
+max-width:1700px;
+margin:auto;
+
+}
+
+/* ========================= */
+/* HEADER */
+/* ========================= */
+
+.topbar{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+gap:20px;
+flex-wrap:wrap;
+
+}
+
+.brand h1{
+
+font-family:'Orbitron',sans-serif;
+font-size:46px;
+font-weight:800;
+
+background:
+linear-gradient(90deg,var(--cyan),var(--blue),white);
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+}
+
+.brand p{
+
+color:#94a3b8;
+margin-top:5px;
+
+}
+
+.status{
+
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+
+}
+
+.status-card{
+
+padding:14px 24px;
+
+background:rgba(255,255,255,.05);
+
+border:1px solid rgba(255,255,255,.08);
+
+backdrop-filter:blur(20px);
+
+border-radius:20px;
+
+box-shadow:
+0 0 30px rgba(0,0,0,.25);
+
+font-weight:700;
+
+}
+
+/* ========================= */
+/* MAIN GRID */
+/* ========================= */
+
+.grid{
+
+display:grid;
+grid-template-columns:1.2fr .8fr;
+gap:25px;
+
+}
+
+/* ========================= */
+/* CARD */
+/* ========================= */
+
+.card{
+
+background:var(--card);
+
+border:1px solid var(--border);
+
+backdrop-filter:blur(25px);
+
+border-radius:35px;
+
+padding:25px;
+
+position:relative;
+
+overflow:hidden;
+
+box-shadow:
+0 10px 40px rgba(0,0,0,.35),
+inset 0 0 30px rgba(255,255,255,.02);
+
+}
+
+.card::before{
+
+content:'';
+
+position:absolute;
+inset:0;
+
+background:
+linear-gradient(
+130deg,
+rgba(255,255,255,.04),
+transparent
+);
+
+pointer-events:none;
+
+}
+
+.card-title{
+
+font-size:28px;
+font-weight:800;
+margin-bottom:25px;
+color:#dbeafe;
+
+}
+
+/* ========================= */
+/* LAB */
+/* ========================= */
+
+.lab{
+
+height:650px;
+position:relative;
+overflow:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
+
+}
+
+/* wires */
+
+.wire-horizontal{
+
+position:absolute;
+
+width:78%;
+height:8px;
+
+background:var(--cyan);
+
+border-radius:50px;
+
+box-shadow:
+0 0 25px var(--cyan),
+0 0 60px rgba(0,229,255,.5);
+
+}
+
+/* capacitor */
+
+.capacitor{
+
+position:absolute;
+
+display:flex;
+gap:35px;
+
+transform:
+perspective(1000px)
+rotateY(-10deg);
+
+z-index:3;
+
+}
+
+.plate{
+
+width:22px;
+height:220px;
+
+border-radius:14px;
+
+background:
+linear-gradient(
+180deg,
+white,
+var(--cyan)
+);
+
+box-shadow:
+0 0 40px var(--cyan),
+0 0 90px rgba(0,229,255,.5);
+
+animation:pulse 1.5s infinite;
+
+}
+
+@keyframes pulse{
+
+0%,100%{
+
+transform:scaleY(1);
+opacity:.8;
+
+}
+
+50%{
+
+transform:scaleY(1.07);
+opacity:1;
+
+}
+
+}
+
+/* battery */
+
+.battery{
+
+position:absolute;
+left:100px;
+
+width:90px;
+height:180px;
+
+border-radius:18px;
+
+background:
+linear-gradient(
+180deg,
+#1e293b,
+#0f172a
+);
+
+border:2px solid rgba(255,255,255,.15);
+
+box-shadow:
+0 0 40px rgba(0,229,255,.25);
+
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+
+}
+
+.battery::before{
+
+content:'+';
+
+position:absolute;
+top:10px;
+color:#00ff95;
+font-size:24px;
+
+}
+
+.battery::after{
+
+content:'−';
+
+position:absolute;
+bottom:10px;
+color:#ff1744;
+font-size:24px;
+
+}
+
+.battery-level{
+
+width:50px;
+height:120px;
+
+border-radius:12px;
+
+background:
+linear-gradient(
+180deg,
+#00ff95,
+#00e676
+);
+
+box-shadow:
+0 0 25px #00ff95;
+
+}
+
+/* resistor */
+
+.resistor{
+
+position:absolute;
+right:100px;
+
+width:160px;
+height:45px;
+
+border-radius:18px;
+
+background:
+linear-gradient(
+90deg,
+#d97706,
+#f59e0b
+);
+
+box-shadow:
+0 0 25px rgba(245,158,11,.45);
+
+}
+
+/* switch */
+
+.switch{
+
+position:absolute;
+
+top:130px;
+right:260px;
+
+width:120px;
+height:10px;
+
+background:#334155;
+
+border-radius:20px;
+
+transform-origin:left center;
+
+transition:.4s;
+
+}
+
+.switch.on{
+
+transform:rotate(0deg);
+
+background:#00ff95;
+
+box-shadow:
+0 0 25px #00ff95;
+
+}
+
+.switch.off{
+
+transform:rotate(-35deg);
+
+}
+
+/* particles */
+
+.particle{
+
+position:absolute;
+
+width:16px;
+height:16px;
+
+border-radius:50%;
+
+background:var(--cyan);
+
+box-shadow:
+0 0 20px var(--cyan);
+
+opacity:0;
+
+}
+
+/* equation */
+
+.equation{
+
+margin-top:25px;
+
+padding:22px;
+
+background:rgba(255,255,255,.04);
+
+border-radius:22px;
+
+border:1px solid rgba(255,255,255,.08);
+
+font-size:24px;
+
+font-family:'Orbitron',sans-serif;
+
+text-align:center;
+
+color:#7dd3fc;
+
+overflow:auto;
+
+}
+
+/* ========================= */
+/* CONTROL */
+/* ========================= */
+
+.panel{
+
+display:flex;
+flex-direction:column;
+gap:18px;
+
+}
+
+.box{
+
+background:rgba(255,255,255,.04);
+
+padding:20px;
+
+border-radius:24px;
+
+border:1px solid rgba(255,255,255,.08);
+
+}
+
+.box label{
+
+display:block;
+
+margin-bottom:12px;
+
+font-weight:700;
+
+color:#7dd3fc;
+
+}
+
+/* select */
+
+select{
+
+width:100%;
+padding:15px;
+
+background:#0f172a;
+
+border:none;
+
+border-radius:18px;
+
+color:white;
+
+font-size:16px;
+
+outline:none;
+
+}
+
+/* range */
+
+input[type=range]{
+
+width:100%;
+
+}
+
+/* values */
+
 .range-value{
+
 margin-top:10px;
 font-weight:700;
 color:#cbd5e1;
+
 }
 
-/* Buttons */
+/* buttons */
 
 .buttons{
+
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:12px;
+
 }
 
 button{
-padding:16px;
+
+padding:17px;
+
 border:none;
+
 border-radius:20px;
+
 font-size:16px;
+
 font-weight:800;
+
 cursor:pointer;
+
 transition:.3s;
+
 color:white;
+
 }
 
 button:hover{
-transform:translateY(-3px) scale(1.03);
+
+transform:
+translateY(-3px)
+scale(1.03);
+
 }
 
 .start{
-background:linear-gradient(90deg,#00c853,#00ff95);
+
+background:
+linear-gradient(
+90deg,
+#00c853,
+#00ff95
+);
+
 }
 
 .stop{
-background:linear-gradient(90deg,#ff1744,#ff5252);
+
+background:
+linear-gradient(
+90deg,
+#ff1744,
+#ff5252
+);
+
 }
 
 .reset{
-background:linear-gradient(90deg,#2979ff,#00b0ff);
+
+background:
+linear-gradient(
+90deg,
+#2979ff,
+#00b0ff
+);
+
 }
 
-/* Progress */
+/* progress */
 
 .progress{
+
 height:24px;
+
 background:#111827;
+
 border-radius:30px;
+
 overflow:hidden;
+
 margin-top:15px;
+
 }
 
 .fill{
+
 height:100%;
 width:0%;
-background:linear-gradient(90deg,#00e5ff,#3b82f6);
-box-shadow:0 0 25px #00e5ff;
-transition:.2s;
+
+background:
+linear-gradient(
+90deg,
+var(--cyan),
+var(--blue)
+);
+
+box-shadow:
+0 0 25px var(--cyan);
+
+transition:.15s;
+
 }
 
-/* Meters */
+/* meters */
 
-.readings{
+.meters{
+
 display:grid;
 grid-template-columns:repeat(2,1fr);
 gap:15px;
 margin-top:15px;
+
 }
 
-.reading{
+.meter{
+
 background:rgba(255,255,255,.04);
+
 padding:20px;
+
 border-radius:22px;
-text-align:center;
+
 border:1px solid rgba(255,255,255,.08);
+
+text-align:center;
+
 }
 
-.reading h3{
+.meter h3{
+
 font-size:14px;
+
 margin-bottom:10px;
+
 color:#7dd3fc;
+
 }
 
-.reading span{
-font-size:30px;
-font-weight:800;
+.meter span{
+
+font-size:34px;
+
 font-family:'Orbitron',sans-serif;
+font-weight:800;
+
 }
 
-/* Oscilloscope */
+/* chart */
 
 canvas{
+
 background:#020617;
-border-radius:20px;
+
+border-radius:22px;
+
 padding:15px;
+
 border:1px solid rgba(255,255,255,.08);
+
 }
 
-/* Equation */
-
-.equation{
-margin-top:20px;
-padding:20px;
-border-radius:20px;
-background:rgba(255,255,255,.04);
-border:1px solid rgba(255,255,255,.08);
-font-size:22px;
-text-align:center;
-font-family:'Orbitron',sans-serif;
-color:#7dd3fc;
-overflow:auto;
-}
-
-/* Footer */
+/* footer */
 
 .footer{
+
 margin-top:30px;
+
 text-align:center;
+
 color:#94a3b8;
+
 padding-bottom:20px;
+
 }
 
-/* Responsive */
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
 
-@media(max-width:1000px){
+@media(max-width:1100px){
 
 .grid{
+
 grid-template-columns:1fr;
+
 }
 
-.logo{
-font-size:30px;
+.lab{
+
+height:500px;
+
 }
 
-.simulator{
-height:400px;
+.brand h1{
+
+font-size:32px;
+
 }
 
 }
@@ -431,11 +879,18 @@ height:400px;
 
 <body>
 
-<!-- Loader -->
+<!-- BACKGROUND -->
+
+<div class="bg-grid"></div>
+
+<div class="glow glow1"></div>
+<div class="glow glow2"></div>
+
+<!-- LOADER -->
 
 <div class="loader" id="loader">
 
-<h1>⚡ ALI HAZIM Ultra</h1>
+<h1>ALI HAZIM Ultra</h1>
 
 <p>Advanced RC Physics Laboratory</p>
 
@@ -445,51 +900,65 @@ height:400px;
 
 </div>
 
-<!-- Main -->
+<!-- APP -->
 
-<div class="container">
+<div class="app">
 
-<div class="header">
+<!-- HEADER -->
 
-<div>
+<div class="topbar">
 
-<div class="logo">
-ALI HAZIM Ultra
-</div>
+<div class="brand">
 
-<div class="subtitle">
-Advanced RC Physics Laboratory
-</div>
+<h1>ALI HAZIM Ultra</h1>
+
+<p>Advanced RC Physics Laboratory</p>
 
 </div>
 
-<div class="authors">
+<div class="status">
 
-<div class="badge">
-👨‍🏫 إعداد الأستاذ سيف
+<div class="status-card">
+🟢 SYSTEM ONLINE
 </div>
 
-<div class="badge">
-👨‍💻 إعداد الطالب ALI HAZIM
+<div class="status-card">
+👨‍🏫 الأستاذ سيف
+</div>
+
+<div class="status-card">
+👨‍💻 ALI HAZIM
 </div>
 
 </div>
 
 </div>
+
+<!-- GRID -->
 
 <div class="grid">
 
-<!-- LEFT -->
+<!-- LAB -->
 
 <div class="card">
 
-<div class="title">
-⚡ RC Circuit Simulation
+<div class="card-title">
+⚡ Interactive RC Laboratory
 </div>
 
-<div class="simulator">
+<div class="lab">
 
-<div class="wire"></div>
+<div class="wire-horizontal"></div>
+
+<div class="battery">
+
+<div class="battery-level"></div>
+
+</div>
+
+<div class="resistor"></div>
+
+<div class="switch off" id="switch"></div>
 
 <div class="capacitor">
 
@@ -498,9 +967,10 @@ Advanced RC Physics Laboratory
 
 </div>
 
-<div class="electron" id="e1"></div>
-<div class="electron" id="e2"></div>
-<div class="electron" id="e3"></div>
+<div class="particle" id="p1"></div>
+<div class="particle" id="p2"></div>
+<div class="particle" id="p3"></div>
+<div class="particle" id="p4"></div>
 
 </div>
 
@@ -510,12 +980,12 @@ V(t)=V₀(1-e^(-t/RC))
 
 </div>
 
-<!-- RIGHT -->
+<!-- CONTROL -->
 
 <div class="card">
 
-<div class="title">
-🎛 Physics Control Panel
+<div class="card-title">
+🎛 Physics Control System
 </div>
 
 <div class="panel">
@@ -541,7 +1011,11 @@ V(t)=V₀(1-e^(-t/RC))
 
 <label>Resistance (Ω)</label>
 
-<input type="range" id="resistance" min="1" max="100" value="50">
+<input type="range"
+id="resistance"
+min="1"
+max="100"
+value="50">
 
 <div class="range-value" id="resText">
 50 Ω
@@ -553,7 +1027,11 @@ V(t)=V₀(1-e^(-t/RC))
 
 <label>Capacitance (µF)</label>
 
-<input type="range" id="capacitance" min="100" max="5000" value="2200">
+<input type="range"
+id="capacitance"
+min="100"
+max="5000"
+value="2200">
 
 <div class="range-value" id="capText">
 2200 µF
@@ -563,15 +1041,15 @@ V(t)=V₀(1-e^(-t/RC))
 
 <div class="buttons">
 
-<button class="start" onclick="startSimulation()">
+<button class="start" onclick="startSystem()">
 تشغيل
 </button>
 
-<button class="stop" onclick="stopSimulation()">
+<button class="stop" onclick="stopSystem()">
 إيقاف
 </button>
 
-<button class="reset" onclick="resetSimulation()">
+<button class="reset" onclick="resetSystem()">
 إعادة
 </button>
 
@@ -582,14 +1060,16 @@ V(t)=V₀(1-e^(-t/RC))
 <label>Charge Level</label>
 
 <div class="progress">
+
 <div class="fill" id="fill"></div>
-</div>
 
 </div>
 
-<div class="readings">
+</div>
 
-<div class="reading">
+<div class="meters">
+
+<div class="meter">
 
 <h3>Voltage</h3>
 
@@ -599,7 +1079,7 @@ V(t)=V₀(1-e^(-t/RC))
 
 </div>
 
-<div class="reading">
+<div class="meter">
 
 <h3>Current</h3>
 
@@ -609,7 +1089,7 @@ V(t)=V₀(1-e^(-t/RC))
 
 </div>
 
-<div class="reading">
+<div class="meter">
 
 <h3>Resistance</h3>
 
@@ -619,7 +1099,7 @@ V(t)=V₀(1-e^(-t/RC))
 
 </div>
 
-<div class="reading">
+<div class="meter">
 
 <h3>Capacitance</h3>
 
@@ -633,9 +1113,9 @@ V(t)=V₀(1-e^(-t/RC))
 
 <div class="box">
 
-<label>Oscilloscope</label>
+<label>Live Oscilloscope</label>
 
-<canvas id="scope" height="220"></canvas>
+<canvas id="scope" height="240"></canvas>
 
 </div>
 
@@ -646,14 +1126,18 @@ V(t)=V₀(1-e^(-t/RC))
 </div>
 
 <div class="footer">
-MIT / NASA Inspired Physics Simulation Interface © 2026
+MIT / NASA Inspired Scientific Interface © 2026
 </div>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
 
-/* Loader */
+/* ========================= */
+/* LOADER */
+/* ========================= */
 
 setTimeout(()=>{
 
@@ -667,51 +1151,79 @@ document.getElementById("loader").style.display="none";
 
 },3200);
 
-/* Elements */
+/* ========================= */
+/* ELEMENTS */
+/* ========================= */
 
-const voltage = document.getElementById("voltage");
-const resistance = document.getElementById("resistance");
-const capacitance = document.getElementById("capacitance");
+const voltage =
+document.getElementById("voltage");
 
-const voltValue = document.getElementById("voltValue");
-const currentValue = document.getElementById("currentValue");
-const ohmValue = document.getElementById("ohmValue");
-const capValue = document.getElementById("capValue");
+const resistance =
+document.getElementById("resistance");
 
-const resText = document.getElementById("resText");
-const capText = document.getElementById("capText");
+const capacitance =
+document.getElementById("capacitance");
 
-const fill = document.getElementById("fill");
+const voltValue =
+document.getElementById("voltValue");
 
-const electrons = [
-document.getElementById("e1"),
-document.getElementById("e2"),
-document.getElementById("e3")
+const currentValue =
+document.getElementById("currentValue");
+
+const ohmValue =
+document.getElementById("ohmValue");
+
+const capValue =
+document.getElementById("capValue");
+
+const resText =
+document.getElementById("resText");
+
+const capText =
+document.getElementById("capText");
+
+const fill =
+document.getElementById("fill");
+
+const sw =
+document.getElementById("switch");
+
+const particles = [
+
+document.getElementById("p1"),
+document.getElementById("p2"),
+document.getElementById("p3"),
+document.getElementById("p4")
+
 ];
 
-let running = false;
-let progress = 0;
-let interval;
-
-/* Update Values */
+/* ========================= */
+/* VALUES */
+/* ========================= */
 
 function updateValues(){
 
-voltValue.innerText = voltage.value + "V";
+voltValue.innerText =
+voltage.value + "V";
 
-ohmValue.innerText = resistance.value + "Ω";
+ohmValue.innerText =
+resistance.value + "Ω";
 
-capValue.innerText = capacitance.value;
+capValue.innerText =
+capacitance.value;
 
-resText.innerText = resistance.value + " Ω";
+resText.innerText =
+resistance.value + " Ω";
 
-capText.innerText = capacitance.value + " µF";
+capText.innerText =
+capacitance.value + " µF";
 
 let current = (
 voltage.value / resistance.value
 ).toFixed(2);
 
-currentValue.innerText = current + "A";
+currentValue.innerText =
+current + "A";
 
 }
 
@@ -721,75 +1233,90 @@ capacitance.oninput = updateValues;
 
 updateValues();
 
-/* Simulation */
+/* ========================= */
+/* SYSTEM */
+/* ========================= */
 
-function startSimulation(){
+let running = false;
+let progress = 0;
+let interval;
+
+function startSystem(){
 
 if(running) return;
 
 running = true;
 
+sw.classList.remove("off");
+sw.classList.add("on");
+
 interval = setInterval(()=>{
 
-progress += 0.6;
+progress += 0.5;
 
 if(progress > 100){
 progress = 100;
 }
 
-fill.style.width = progress + "%";
+fill.style.width =
+progress + "%";
 
-animateElectrons();
+animateParticles();
 
-},60);
+},50);
 
 }
 
-function stopSimulation(){
+function stopSystem(){
 
 running = false;
 
 clearInterval(interval);
 
-electrons.forEach(e=>{
-e.style.opacity = 0;
+sw.classList.remove("on");
+sw.classList.add("off");
+
+particles.forEach(p=>{
+p.style.opacity = 0;
 });
 
 }
 
-function resetSimulation(){
+function resetSystem(){
 
 progress = 0;
 
 fill.style.width = "0%";
 
-stopSimulation();
+stopSystem();
 
 }
 
-/* Electrons */
+/* ========================= */
+/* PARTICLES */
+/* ========================= */
 
-function animateElectrons(){
+function animateParticles(){
 
-electrons.forEach((e,i)=>{
+particles.forEach((p,i)=>{
 
-e.style.opacity = 1;
+p.style.opacity = 1;
 
-e.animate([
+p.animate([
 
 {
-transform:"translateX(-350px)"
+transform:"translateX(-500px)"
 },
 
 {
-transform:"translateX(350px)"
+transform:"translateX(500px)"
 }
 
 ],{
 
-duration:1800,
+duration:2200,
 iterations:1,
-delay:i*200
+delay:i*180
 
 });
 
@@ -797,9 +1324,12 @@ delay:i*200
 
 }
 
-/* Oscilloscope */
+/* ========================= */
+/* CHART */
+/* ========================= */
 
-const ctx = document.getElementById('scope');
+const ctx =
+document.getElementById('scope');
 
 const chart = new Chart(ctx,{
 
@@ -852,9 +1382,11 @@ animation:false,
 plugins:{
 
 legend:{
+
 labels:{
 color:'#fff'
 }
+
 }
 
 },
@@ -875,7 +1407,9 @@ ticks:{color:'#94a3b8'}
 
 });
 
-/* Live Graph */
+/* ========================= */
+/* LIVE GRAPH */
+/* ========================= */
 
 let t = 0;
 
@@ -886,13 +1420,19 @@ if(!running) return;
 t++;
 
 let V = (
+
 voltage.value *
+
 (1 - Math.exp(-t/30))
+
 ).toFixed(2);
 
 let I = (
-(voltage.value / resistance.value) *
-Math.exp(-t/30)
+
+(voltage.value / resistance.value)
+
+* Math.exp(-t/30)
+
 ).toFixed(2);
 
 if(chart.data.labels.length > 40){
@@ -913,7 +1453,7 @@ chart.data.datasets[1].data.push(I);
 
 chart.update();
 
-},200);
+},180);
 
 </script>
 
