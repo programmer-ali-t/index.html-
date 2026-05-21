@@ -1,734 +1,406 @@
 <!--
-ALI HAZIM Ultra
-Advanced RC Physics Laboratory
-FINAL PRO MAX VERSION
+ALI HAZIM ULTRA — Advanced RC Physics Laboratory
+Premium Scientific Edition
 -->
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ALI HAZIM Ultra | Advanced RC Physics Laboratory</title>
+<title>ALI HAZIM ULTRA | Advanced RC Physics Laboratory</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 
+:root{
+--bg:#07111f;
+--panel:#0f1b2d;
+--glass:rgba(255,255,255,.05);
+--cyan:#35d6ff;
+--blue:#4d7dff;
+--green:#18ff9c;
+--orange:#ff9f1a;
+--red:#ff4d6d;
+--text:#eaf4ff;
+--muted:#8da2c0;
+}
+
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:'Cairo',sans-serif;
+font-family:'Tajawal',sans-serif;
 }
 
 body{
-
 background:
-radial-gradient(circle at top,#0d1b3d 0%,#050816 50%,#02040d 100%);
-
-overflow-x:hidden;
-color:white;
+radial-gradient(circle at top left,#10213b 0%,transparent 30%),
+radial-gradient(circle at bottom right,#091523 0%,transparent 30%),
+linear-gradient(180deg,#040b14,#07111f);
+color:var(--text);
 min-height:100vh;
-position:relative;
+overflow-x:hidden;
 }
-
-/* background particles */
 
 body::before{
-
 content:'';
 position:fixed;
-inset:0;
-
-background:
-radial-gradient(circle,#00ffff22 1px,transparent 1px);
-
+width:100%;
+height:100%;
+background-image:
+linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
 background-size:40px 40px;
-
-animation:gridMove 20s linear infinite;
-
+pointer-events:none;
 opacity:.25;
-pointer-events:none;
 }
-
-@keyframes gridMove{
-0%{transform:translateY(0)}
-100%{transform:translateY(40px)}
-}
-
-/* glow */
-
-body::after{
-
-content:'';
-position:fixed;
-
-width:900px;
-height:900px;
-
-background:#00d9ff22;
-
-top:-300px;
-left:50%;
-transform:translateX(-50%);
-
-filter:blur(180px);
-
-pointer-events:none;
-}
-
-/* loading */
-
-.loader{
-
-position:fixed;
-inset:0;
-
-background:#02040d;
-
-display:flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-
-z-index:99999;
-
-transition:1s;
-}
-
-.loader h1{
-
-font-size:55px;
-font-weight:900;
-
-background:linear-gradient(to right,#00e5ff,#ffffff);
-
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-
-margin-bottom:20px;
-}
-
-.loader p{
-
-opacity:.7;
-letter-spacing:3px;
-}
-
-.loader.hide{
-
-opacity:0;
-visibility:hidden;
-}
-
-/* main */
 
 .container{
-
-width:95%;
-max-width:1700px;
-
+width:min(1500px,95%);
 margin:auto;
-
 padding:30px 0;
 }
 
-/* header */
-
 .header{
-
 display:flex;
 justify-content:space-between;
 align-items:center;
-flex-wrap:wrap;
-
-gap:20px;
-
-margin-bottom:30px;
+padding:20px 30px;
+background:rgba(255,255,255,.04);
+backdrop-filter:blur(14px);
+border:1px solid rgba(255,255,255,.08);
+border-radius:28px;
+margin-bottom:25px;
+box-shadow:0 0 40px rgba(0,0,0,.4);
 }
 
-.logo h1{
-
-font-size:42px;
+.brand h1{
+font-size:34px;
 font-weight:900;
-
-background:linear-gradient(to right,#00e5ff,#7df9ff,#ffffff);
-
+background:linear-gradient(90deg,#fff,#35d6ff);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
 
-.logo p{
-
-opacity:.7;
+.brand p{
+color:var(--muted);
 margin-top:6px;
 }
 
 .badges{
-
 display:flex;
-gap:14px;
+gap:15px;
 flex-wrap:wrap;
 }
 
 .badge{
-
-padding:14px 22px;
-
-border-radius:20px;
-
+padding:12px 22px;
+border-radius:16px;
 background:rgba(255,255,255,.05);
-
 border:1px solid rgba(255,255,255,.08);
-
-backdrop-filter:blur(18px);
-
-box-shadow:
-0 0 25px rgba(0,229,255,.12);
+font-weight:700;
 }
 
-/* layout */
-
-.grid{
-
+.layout{
 display:grid;
-grid-template-columns:1.5fr .9fr;
+grid-template-columns:1.4fr .9fr;
 gap:25px;
 }
 
 @media(max-width:1100px){
-
-.grid{
+.layout{
 grid-template-columns:1fr;
 }
-
 }
 
-/* glass */
-
-.glass{
-
-background:
-linear-gradient(
-145deg,
-rgba(255,255,255,.05),
-rgba(255,255,255,.02)
-);
-
+.panel{
+background:rgba(255,255,255,.04);
+backdrop-filter:blur(14px);
 border:1px solid rgba(255,255,255,.08);
-
-backdrop-filter:blur(20px);
-
-border-radius:35px;
-
+border-radius:30px;
+padding:28px;
 box-shadow:
-0 0 40px rgba(0,229,255,.08),
-inset 0 0 20px rgba(255,255,255,.03);
-}
-
-/* lab */
-
-.lab{
-
-padding:35px;
+0 10px 40px rgba(0,0,0,.35),
+inset 0 1px 1px rgba(255,255,255,.04);
 position:relative;
 overflow:hidden;
-min-height:850px;
 }
 
-/* lab title */
-
-.labTitle{
-
-font-size:30px;
-font-weight:900;
-
+.panel-title{
+font-size:28px;
+font-weight:800;
 margin-bottom:25px;
-
-color:#7df9ff;
+display:flex;
+align-items:center;
+gap:10px;
 }
 
-/* circuit */
-
-.circuit{
-
-height:520px;
-
+.circuit-area{
+height:430px;
 position:relative;
+border-radius:28px;
+background:
+linear-gradient(135deg,#101c2e,#08111f);
+overflow:hidden;
+}
 
+.wire{
+position:absolute;
+background:linear-gradient(90deg,#35d6ff,#4d7dff);
+box-shadow:0 0 25px #35d6ff;
+}
+
+.w1{
+width:65%;
+height:6px;
+top:50%;
+left:15%;
+border-radius:20px;
+}
+
+.capacitor{
+position:absolute;
+top:37%;
+left:47%;
+display:flex;
+gap:20px;
+transform:translate(-50%,-50%);
+}
+
+.plate{
+width:18px;
+height:150px;
+border-radius:30px;
+background:linear-gradient(#dff9ff,#35d6ff);
+box-shadow:0 0 40px #35d6ff;
+}
+
+.battery{
+position:absolute;
+left:60px;
+top:40%;
+width:90px;
+height:150px;
+border-radius:22px;
+background:linear-gradient(180deg,#1d2f46,#0f1d2e);
+border:2px solid rgba(255,255,255,.1);
+box-shadow:0 0 30px rgba(0,0,0,.4);
 display:flex;
 align-items:center;
 justify-content:center;
 }
 
-/* energy wire */
-
-.wire{
-
-position:absolute;
-
-width:78%;
-height:10px;
-
-border-radius:30px;
-
-background:
-linear-gradient(
-90deg,
-#00ffff,
-#7df9ff,
-#00ffff
-);
-
-box-shadow:
-0 0 30px #00ffff,
-0 0 90px #00ffff;
-
-animation:wireFlow 2s linear infinite;
-}
-
-@keyframes wireFlow{
-
-0%{
-filter:hue-rotate(0deg);
-}
-
-100%{
-filter:hue-rotate(360deg);
-}
-
-}
-
-/* electrons */
-
-.electron{
-
-position:absolute;
-
-width:18px;
-height:18px;
-
-border-radius:50%;
-
-background:#00ffff;
-
-box-shadow:
-0 0 20px #00ffff,
-0 0 45px #00ffff;
-
-animation:electronMove 2s linear infinite;
-}
-
-.e2{
-animation-delay:.4s;
-}
-
-.e3{
-animation-delay:.8s;
-}
-
-.e4{
-animation-delay:1.2s;
-}
-
-@keyframes electronMove{
-
-0%{
-left:12%;
-opacity:0;
-}
-
-10%{
-opacity:1;
-}
-
-90%{
-opacity:1;
-}
-
-100%{
-left:84%;
-opacity:0;
-}
-
-}
-
-/* battery */
-
-.battery{
-
-position:absolute;
-left:7%;
-
-width:100px;
-height:200px;
-
-border-radius:30px;
-
-background:
-linear-gradient(
-145deg,
-#0d1327,
-#132145
-);
-
-border:2px solid rgba(255,255,255,.08);
-
-box-shadow:
-0 0 40px rgba(0,255,170,.25),
-inset 0 0 30px rgba(0,255,170,.08);
-
-display:flex;
-justify-content:center;
-align-items:flex-end;
-
-padding:15px;
-}
-
 .battery::before{
-
 content:'';
-
 position:absolute;
-
-top:-15px;
-
-width:40px;
+top:-12px;
+width:30px;
 height:12px;
-
-border-radius:8px;
-
-background:#bbb;
+background:#cdd6e3;
+border-radius:10px 10px 0 0;
 }
 
-.level{
-
-width:100%;
-height:85%;
-
-border-radius:18px;
-
-background:
-linear-gradient(
-to top,
-#00ff88,
-#00ffd5
-);
-
-box-shadow:
-0 0 30px #00ff88;
-
-animation:batteryPulse 2s infinite;
+.battery-level{
+width:55px;
+height:110px;
+border-radius:16px;
+background:linear-gradient(180deg,#00ff99,#18ff9c);
+box-shadow:0 0 30px #18ff9c;
+animation:pulse 2s infinite;
 }
 
-@keyframes batteryPulse{
-
-50%{
-filter:brightness(1.5);
+@keyframes pulse{
+0%,100%{opacity:1}
+50%{opacity:.6}
 }
-
-}
-
-/* capacitor */
-
-.capacitor{
-
-position:relative;
-display:flex;
-gap:35px;
-z-index:2;
-}
-
-.cap{
-
-width:28px;
-height:260px;
-
-border-radius:25px;
-
-background:
-linear-gradient(
-180deg,
-#ffffff,
-#8ffcff,
-#00d9ff
-);
-
-box-shadow:
-0 0 40px #00e5ff,
-0 0 120px #00d9ff;
-}
-
-/* switch */
 
 .switch{
-
 position:absolute;
-right:7%;
-
-width:170px;
-height:70px;
-
-border-radius:24px;
-
-background:
-linear-gradient(
-145deg,
-#ffb100,
-#ff8400
-);
-
-box-shadow:
-0 0 35px #ff9900;
-
+right:70px;
+top:45%;
+width:120px;
+height:55px;
+border-radius:40px;
+background:linear-gradient(90deg,#ffb703,#ff8800);
+box-shadow:0 0 30px rgba(255,166,0,.6);
 cursor:pointer;
-
 transition:.4s;
 }
 
-.switch:hover{
-
-transform:scale(1.05);
+.switch::before{
+content:'';
+position:absolute;
+width:46px;
+height:46px;
+background:white;
+border-radius:50%;
+top:4px;
+right:5px;
+transition:.4s;
 }
 
-/* formula */
+.switch.active{
+background:linear-gradient(90deg,#18ff9c,#00d47f);
+}
 
-.formula{
+.switch.active::before{
+right:68px;
+}
 
-margin-top:30px;
-
-padding:25px;
-
+.equation{
+margin-top:25px;
+padding:22px;
+border-radius:22px;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.06);
+font-size:24px;
 text-align:center;
-
-font-size:30px;
-
-border-radius:28px;
-
-background:rgba(255,255,255,.03);
-
-border:1px solid rgba(255,255,255,.05);
-
-color:#7df9ff;
-
-text-shadow:
-0 0 20px #00e5ff;
+color:#8be7ff;
+font-weight:700;
 }
 
-/* side */
-
-.side{
-
-padding:30px;
-
-display:flex;
-flex-direction:column;
+.controls{
+display:grid;
 gap:22px;
 }
 
-/* title */
-
-.panelTitle{
-
-font-size:28px;
-font-weight:900;
-}
-
-/* control */
-
-.control{
-
-padding:22px;
-
-border-radius:24px;
-
+.control-box{
 background:rgba(255,255,255,.03);
-
-border:1px solid rgba(255,255,255,.05);
+padding:20px;
+border-radius:22px;
+border:1px solid rgba(255,255,255,.06);
 }
 
-.control label{
-
+.control-box label{
 display:block;
 margin-bottom:12px;
-opacity:.85;
+font-size:18px;
+font-weight:700;
+}
+
+input[type=range]{
+width:100%;
+accent-color:#35d6ff;
+}
+
+select{
+width:100%;
+padding:16px;
+background:#0e1827;
+border:none;
+border-radius:16px;
+color:white;
 font-size:17px;
 }
 
-/* slider */
-
-input[type=range]{
-
-width:100%;
-accent-color:#00e5ff;
-}
-
-/* buttons */
-
 .buttons{
-
 display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:16px;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
 }
 
 .btn{
-
 padding:18px;
-
 border:none;
-
-border-radius:20px;
-
+border-radius:18px;
 font-size:18px;
 font-weight:800;
-
 cursor:pointer;
-
-transition:.3s;
-
 color:white;
+transition:.3s;
 }
 
 .start{
-
-background:
-linear-gradient(
-145deg,
-#00ff88,
-#00c779
-);
-
-box-shadow:
-0 0 30px #00ff88;
+background:linear-gradient(90deg,#00ff99,#00d47f);
 }
 
 .stop{
-
-background:
-linear-gradient(
-145deg,
-#ff355e,
-#ff004c
-);
-
-box-shadow:
-0 0 30px #ff004c;
+background:linear-gradient(90deg,#ff4d6d,#ff234f);
 }
 
 .reset{
-
-background:
-linear-gradient(
-145deg,
-#00b7ff,
-#006eff
-);
-
-box-shadow:
-0 0 30px #008cff;
+background:linear-gradient(90deg,#35d6ff,#4d7dff);
 }
 
 .btn:hover{
-
-transform:
-translateY(-5px)
-scale(1.03);
+transform:translateY(-3px) scale(1.02);
 }
 
-/* meters */
-
-.meters{
-
+.stats{
 display:grid;
-grid-template-columns:1fr 1fr;
+grid-template-columns:repeat(2,1fr);
 gap:18px;
+margin-top:20px;
 }
 
-.meter{
-
-padding:28px;
-
-border-radius:28px;
-
-background:rgba(255,255,255,.03);
-
-border:1px solid rgba(255,255,255,.05);
-
-text-align:center;
-
-position:relative;
-overflow:hidden;
-}
-
-.meter::before{
-
-content:'';
-
-position:absolute;
-
-width:250px;
-height:250px;
-
-background:#00e5ff22;
-
-filter:blur(90px);
-
-top:-120px;
-left:-70px;
-}
-
-.meter h3{
-
-opacity:.75;
-
-margin-bottom:18px;
-}
-
-.value{
-
-font-size:44px;
-font-weight:900;
-
-text-shadow:
-0 0 20px #00e5ff;
-}
-
-/* chart */
-
-.chartBox{
-
-margin-top:25px;
-
+.stat{
 padding:30px;
+border-radius:24px;
+background:rgba(255,255,255,.03);
+border:1px solid rgba(255,255,255,.06);
+text-align:center;
 }
 
-.chartTitle{
+.stat h3{
+color:#8da2c0;
+font-size:18px;
+margin-bottom:10px;
+}
 
-font-size:28px;
+.stat p{
+font-size:42px;
 font-weight:900;
-
-margin-bottom:20px;
-
-color:#7df9ff;
 }
 
-/* footer */
+.chart-box{
+margin-top:25px;
+padding:20px;
+border-radius:25px;
+background:#07111f;
+border:1px solid rgba(255,255,255,.06);
+}
 
 .footer{
-
-margin-top:30px;
-
-padding-bottom:30px;
-
 text-align:center;
+margin-top:30px;
+color:#8da2c0;
+font-size:18px;
+}
 
-opacity:.45;
+.particles{
+position:absolute;
+inset:0;
+overflow:hidden;
+pointer-events:none;
+}
+
+.particles span{
+position:absolute;
+width:6px;
+height:6px;
+background:#35d6ff;
+border-radius:50%;
+animation:float 8s linear infinite;
+opacity:.7;
+}
+
+@keyframes float{
+0%{
+transform:translateY(400px);
+opacity:0;
+}
+20%{
+opacity:1;
+}
+100%{
+transform:translateY(-100px);
+opacity:0;
+}
 }
 
 </style>
@@ -736,330 +408,263 @@ opacity:.45;
 
 <body>
 
-<!-- LOADING -->
-
-<div class="loader" id="loader">
-
-<h1>ALI HAZIM Ultra</h1>
-<p>ADVANCED RC PHYSICS LABORATORY</p>
-
-</div>
-
 <div class="container">
-
-<!-- HEADER -->
 
 <div class="header">
 
-<div class="logo">
-
-<h1>ALI HAZIM Ultra</h1>
+<div class="brand">
+<h1>ALI HAZIM ULTRA</h1>
 <p>Advanced RC Physics Laboratory</p>
-
 </div>
 
 <div class="badges">
-
 <div class="badge">👨‍🏫 إعداد الأستاذ سيف</div>
-<div class="badge">👨‍💻 إعداد الطالب ALI HAZIM</div>
-<div class="badge">⚡ Physics Engine Online</div>
-
+<div class="badge">🧠 إعداد الطالب ALI HAZIM</div>
 </div>
 
 </div>
 
-<!-- GRID -->
+<div class="layout">
 
-<div class="grid">
+<div class="panel">
 
-<!-- LAB -->
-
-<div class="glass lab">
-
-<div class="labTitle">
-⚡ RC Quantum Simulation Chamber
+<div class="panel-title">
+⚡ محاكاة دائرة RC الاحترافية
 </div>
 
-<div class="circuit">
+<div class="circuit-area">
+
+<div class="particles" id="particles"></div>
 
 <div class="battery">
-
-<div class="level"></div>
-
+<div class="battery-level"></div>
 </div>
 
-<div class="wire"></div>
-
-<div class="electron"></div>
-<div class="electron e2"></div>
-<div class="electron e3"></div>
-<div class="electron e4"></div>
+<div class="wire w1"></div>
 
 <div class="capacitor">
+<div class="plate"></div>
+<div class="plate"></div>
+</div>
 
-<div class="cap"></div>
-<div class="cap"></div>
+<div class="switch" id="switch"></div>
 
 </div>
 
-<div class="switch"></div>
-
-</div>
-
-<div class="formula">
-V(t)=V₀(1-e<sup>-t/RC</sup>)
+<div class="equation">
+V(t)=V₀(1-e^-t/RC)
 </div>
 
 </div>
 
-<!-- SIDE -->
+<div class="panel">
 
-<div class="glass side">
-
-<div class="panelTitle">
-🎛 Physics Control Center
+<div class="panel-title">
+🎛️ نظام التحكم الفيزيائي
 </div>
 
-<div class="control">
+<div class="controls">
 
+<div class="control-box">
 <label>الجهد الكهربائي</label>
-
-<input type="range" min="1" max="20" value="5" id="volt">
-
+<select id="voltage">
+<option>5</option>
+<option>9</option>
+<option>12</option>
+<option>24</option>
+</select>
 </div>
 
-<div class="control">
-
-<label>المقاومة Ω</label>
-
-<input type="range" min="10" max="1000" value="100" id="res">
-
+<div class="control-box">
+<label>المقاومة (Ω)</label>
+<input type="range" min="1" max="1000" value="100" id="resistance">
+<h2 id="rValue">100 Ω</h2>
 </div>
 
-<div class="control">
-
-<label>السعة μF</label>
-
-<input type="range" min="100" max="10000" value="2200" id="capacitance">
-
+<div class="control-box">
+<label>السعة (µF)</label>
+<input type="range" min="100" max="5000" value="2200" id="capacitance">
+<h2 id="cValue">2200 µF</h2>
 </div>
 
 <div class="buttons">
-
-<button class="btn start">تشغيل</button>
-<button class="btn stop">إيقاف</button>
-<button class="btn reset">إعادة</button>
-
+<button class="btn start" onclick="startSimulation()">تشغيل</button>
+<button class="btn stop" onclick="stopSimulation()">إيقاف</button>
+<button class="btn reset" onclick="resetSimulation()">إعادة</button>
 </div>
 
-<div class="meters">
+<div class="stats">
 
-<div class="meter">
-
+<div class="stat">
 <h3>الجهد</h3>
-
-<div class="value" id="voltVal">
-5V
+<p id="vDisplay">5V</p>
 </div>
 
-</div>
-
-<div class="meter">
-
+<div class="stat">
 <h3>التيار</h3>
-
-<div class="value" id="ampVal">
-0.05A
+<p id="iDisplay">0.05A</p>
 </div>
 
-</div>
-
-<div class="meter">
-
+<div class="stat">
 <h3>المقاومة</h3>
-
-<div class="value" id="resVal">
-100Ω
+<p id="rDisplay">100Ω</p>
 </div>
 
-</div>
-
-<div class="meter">
-
+<div class="stat">
 <h3>السعة</h3>
-
-<div class="value" id="capVal">
-2200
+<p id="cDisplay">2200</p>
 </div>
 
 </div>
 
-</div>
-
-</div>
-
-</div>
-
-<!-- OSCILLOSCOPE -->
-
-<div class="glass chartBox">
-
-<div class="chartTitle">
-📡 LIVE RC OSCILLOSCOPE
-</div>
-
+<div class="chart-box">
 <canvas id="chart"></canvas>
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 <div class="footer">
-ALI HAZIM Ultra — Advanced RC Physics Laboratory
+ALI HAZIM ULTRA — Advanced RC Physics Laboratory
 </div>
 
 </div>
 
 <script>
 
-/* loading */
+const resistance=document.getElementById('resistance');
+const capacitance=document.getElementById('capacitance');
 
-window.onload=()=>{
+resistance.oninput=()=>{
+document.getElementById('rValue').innerText=resistance.value+' Ω';
+document.getElementById('rDisplay').innerText=resistance.value+'Ω';
+};
 
-setTimeout(()=>{
+capacitance.oninput=()=>{
+document.getElementById('cValue').innerText=capacitance.value+' µF';
+document.getElementById('cDisplay').innerText=capacitance.value;
+};
 
-document.getElementById('loader').classList.add('hide')
+const ctx=document.getElementById('chart');
 
-},2200)
-
-}
-
-/* controls */
-
-const volt=document.getElementById('volt')
-const res=document.getElementById('res')
-const cap=document.getElementById('capacitance')
-
-const voltVal=document.getElementById('voltVal')
-const resVal=document.getElementById('resVal')
-const capVal=document.getElementById('capVal')
-const ampVal=document.getElementById('ampVal')
-
-function updatePhysics(){
-
-voltVal.innerText=volt.value+"V"
-
-resVal.innerText=res.value+"Ω"
-
-capVal.innerText=cap.value
-
-let current=(volt.value/res.value).toFixed(2)
-
-ampVal.innerText=current+"A"
-
-}
-
-volt.oninput=updatePhysics
-res.oninput=updatePhysics
-cap.oninput=updatePhysics
-
-updatePhysics()
-
-/* chart */
-
-const ctx=document.getElementById('chart')
-
-new Chart(ctx,{
-
+const chart=new Chart(ctx,{
 type:'line',
-
 data:{
-
-labels:[0,1,2,3,4,5,6,7,8,9,10],
-
+labels:[],
 datasets:[
-
 {
-
 label:'Voltage',
-
-data:[0,1,2,3,3.8,4.2,4.5,4.7,4.85,4.92,5],
-
-borderColor:'#00ffff',
-
-borderWidth:4,
-
-tension:.4,
-
-pointRadius:0
-
+data:[],
+borderColor:'#35d6ff',
+borderWidth:3,
+tension:.4
 },
-
 {
-
 label:'Current',
-
-data:[5,4,3.2,2.4,1.9,1.4,1,.7,.5,.3,.1],
-
-borderColor:'#005eff',
-
-borderWidth:4,
-
-tension:.4,
-
-pointRadius:0
-
+data:[],
+borderColor:'#4d7dff',
+borderWidth:3,
+tension:.4
 }
-
 ]
-
 },
-
 options:{
-
 responsive:true,
-
 plugins:{
-
 legend:{
-
 labels:{
 color:'white'
 }
-
 }
-
 },
-
 scales:{
-
 x:{
-
-ticks:{
-color:'white'
+ticks:{color:'white'}
 },
-
-grid:{
-color:'#ffffff11'
-}
-
-},
-
 y:{
+ticks:{color:'white'}
+}
+}
+}
+});
 
-ticks:{
-color:'white'
-},
+let interval;
 
-grid:{
-color:'#ffffff11'
+function startSimulation(){
+
+document.getElementById('switch').classList.add('active');
+
+clearInterval(interval);
+
+let t=0;
+
+chart.data.labels=[];
+chart.data.datasets[0].data=[];
+chart.data.datasets[1].data=[];
+
+interval=setInterval(()=>{
+
+const V=parseFloat(document.getElementById('voltage').value);
+const R=parseFloat(resistance.value);
+const C=parseFloat(capacitance.value)/1000000;
+
+const voltage=V*(1-Math.exp(-t/(R*C)));
+const current=(V/R)*Math.exp(-t/(R*C));
+
+chart.data.labels.push(t.toFixed(2));
+chart.data.datasets[0].data.push(voltage.toFixed(2));
+chart.data.datasets[1].data.push(current.toFixed(2));
+
+chart.update();
+
+document.getElementById('vDisplay').innerText=voltage.toFixed(2)+'V';
+document.getElementById('iDisplay').innerText=current.toFixed(2)+'A';
+
+t+=0.05;
+
+if(t>5){
+clearInterval(interval);
 }
 
-}
+},100);
 
 }
 
+function stopSimulation(){
+clearInterval(interval);
+document.getElementById('switch').classList.remove('active');
 }
 
-})
+function resetSimulation(){
+
+clearInterval(interval);
+
+chart.data.labels=[];
+chart.data.datasets[0].data=[];
+chart.data.datasets[1].data=[];
+chart.update();
+
+document.getElementById('switch').classList.remove('active');
+
+document.getElementById('vDisplay').innerText='0V';
+document.getElementById('iDisplay').innerText='0A';
+
+}
+
+for(let i=0;i<50;i++){
+
+const span=document.createElement('span');
+
+span.style.left=Math.random()*100+'%';
+span.style.animationDuration=(4+Math.random()*6)+'s';
+span.style.animationDelay=Math.random()*5+'s';
+
+document.getElementById('particles').appendChild(span);
+
+}
 
 </script>
 
