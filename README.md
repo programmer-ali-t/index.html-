@@ -1297,5 +1297,100 @@
 
     });
 
-  </script></body>
+  </script><!-- ========================================= --><!-- ULTRA ENGINE SYSTEMS --><!-- ========================================= --><script type="module">
+
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js';
+
+const scene = new THREE.Scene();
+
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
+
+const renderer = new THREE.WebGLRenderer({
+  antialias: true,
+  alpha: true
+});
+
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+renderer.domElement.style.position = 'absolute';
+renderer.domElement.style.inset = '0';
+renderer.domElement.style.zIndex = '0';
+renderer.domElement.style.pointerEvents = 'none';
+renderer.domElement.style.opacity = '0.35';
+
+const simulation = document.querySelector('.simulation-area');
+simulation.appendChild(renderer.domElement);
+
+camera.position.z = 8;
+
+const ambient = new THREE.AmbientLight(0xffffff, 1.2);
+scene.add(ambient);
+
+const pointLight = new THREE.PointLight(0x53f7ff, 3);
+pointLight.position.set(4, 6, 5);
+pointLight.castShadow = true;
+scene.add(pointLight);
+
+const geometry = new THREE.TorusKnotGeometry(1.2, 0.35, 200, 32);
+
+const material = new THREE.MeshPhysicalMaterial({
+  color: 0x53f7ff,
+  metalness: 1,
+  roughness: 0.15,
+  transmission: 0.4,
+  clearcoat: 1,
+  emissive: 0x113344,
+  emissiveIntensity: 1.5
+});
+
+const knot = new THREE.Mesh(geometry, material);
+knot.castShadow = true;
+knot.receiveShadow = true;
+scene.add(knot);
+
+function ultraRender() {
+
+  requestAnimationFrame(ultraRender);
+
+  knot.rotation.x += 0.003;
+  knot.rotation.y += 0.004;
+
+  renderer.render(scene, camera);
+
+}
+
+ultraRender();
+
+window.addEventListener('resize', () => {
+
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+});
+
+</script><!-- ========================================= --><!-- PROFESSIONAL MULTI LANGUAGE STACK --><!-- ========================================= --><!--
+HTML5  → الهيكل
+CSS3 + Glassmorphism → التصميم الواقعي
+JavaScript ES2025 → التفاعل والأنيميشن
+Three.js → رسوم 3D حقيقية
+WebGL → تسريع رسومي احترافي
+SVG Engine → أسلاك ومؤثرات كهربائية
+Canvas API → تأثيرات الطاقة
+Physics Simulation → محاكاة واقعية
+GPU Rendering → أداء فائق
+Dynamic Lighting → إضاءة سينمائية
+
+إعداد الأستاذ سيف الربيعي
+إعداد الطالب علي حازم
+--></body>
 </html>
