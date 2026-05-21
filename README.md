@@ -1,31 +1,26 @@
 <!--
+══════════════════════════════════════════════
 ALI HAZIM ULTRA
-REALISTIC SCIENTIFIC RC LAB
-ULTRA PRO MAX EDITION
+REAL ENGINEERING RC LAB
+ULTIMATE NASA / MIT EDITION
+══════════════════════════════════════════════
 -->
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ALI HAZIM ULTRA | Realistic RC Physics Laboratory</title>
+<title>ALI HAZIM ULTRA | Ultimate RC Physics Laboratory</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 
-<style>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
 
-:root{
---bg:#08111f;
---panel:#0f1d31;
---cyan:#34d6ff;
---green:#18ff9c;
---orange:#ff9f1a;
---white:#f5fbff;
---muted:#7e93b2;
-}
+<style>
 
 *{
 margin:0;
@@ -35,31 +30,47 @@ font-family:'Tajawal',sans-serif;
 }
 
 body{
-background:
-radial-gradient(circle at top left,#10233d 0%,transparent 30%),
-radial-gradient(circle at bottom right,#07111d 0%,transparent 40%),
-linear-gradient(180deg,#030913,#08111f);
+background:#02070d;
+overflow:hidden;
 color:white;
-overflow-x:hidden;
-min-height:100vh;
+height:100vh;
 }
 
-body::before{
-content:'';
+#bg3d{
+position:fixed;
+inset:0;
+z-index:0;
+}
+
+.overlay{
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at top,#1d3557 0%,transparent 30%),
+linear-gradient(180deg,rgba(0,0,0,.2),rgba(0,0,0,.75));
+pointer-events:none;
+z-index:1;
+}
+
+.grid{
 position:fixed;
 inset:0;
 background:
 linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
 linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
-background-size:45px 45px;
+background-size:40px 40px;
+opacity:.2;
 pointer-events:none;
-opacity:.18;
+z-index:1;
 }
 
-.container{
-width:min(1600px,95%);
-margin:auto;
-padding:25px 0;
+.ui{
+position:relative;
+z-index:10;
+padding:20px;
+height:100vh;
+display:flex;
+flex-direction:column;
 }
 
 .topbar{
@@ -67,16 +78,17 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 padding:22px 28px;
+border-radius:30px;
 background:rgba(255,255,255,.05);
-backdrop-filter:blur(14px);
+backdrop-filter:blur(22px);
 border:1px solid rgba(255,255,255,.08);
-border-radius:26px;
-margin-bottom:25px;
-box-shadow:0 10px 40px rgba(0,0,0,.35);
+box-shadow:
+0 20px 80px rgba(0,0,0,.5),
+inset 0 1px 1px rgba(255,255,255,.06);
 }
 
 .brand h1{
-font-size:38px;
+font-size:42px;
 font-weight:900;
 background:linear-gradient(90deg,#fff,#34d6ff);
 -webkit-background-clip:text;
@@ -84,47 +96,64 @@ background:linear-gradient(90deg,#fff,#34d6ff);
 }
 
 .brand p{
-color:var(--muted);
-margin-top:5px;
+margin-top:6px;
+color:#8ca6c9;
+font-size:18px;
 }
 
-.tags{
+.badges{
 display:flex;
 gap:12px;
 flex-wrap:wrap;
 }
 
-.tag{
-padding:12px 20px;
-border-radius:16px;
-background:rgba(255,255,255,.04);
+.badge{
+padding:14px 22px;
+border-radius:18px;
+background:rgba(255,255,255,.05);
 border:1px solid rgba(255,255,255,.08);
 font-weight:700;
 }
 
-.layout{
+.main{
 display:grid;
 grid-template-columns:1.5fr .8fr;
-gap:24px;
+gap:22px;
+margin-top:20px;
+flex:1;
 }
 
 @media(max-width:1100px){
-.layout{
+.main{
 grid-template-columns:1fr;
+overflow:auto;
 }
+}
+
+.lab{
+position:relative;
+border-radius:34px;
+overflow:hidden;
+background:
+linear-gradient(180deg,#091321,#08111f);
+border:1px solid rgba(255,255,255,.08);
+box-shadow:
+0 30px 100px rgba(0,0,0,.6),
+inset 0 0 80px rgba(52,214,255,.05);
+}
+
+#simCanvas{
+width:100%;
+height:100%;
 }
 
 .panel{
 background:rgba(255,255,255,.04);
-backdrop-filter:blur(16px);
-border:1px solid rgba(255,255,255,.07);
-border-radius:30px;
-padding:25px;
-position:relative;
-overflow:hidden;
-box-shadow:
-0 10px 40px rgba(0,0,0,.4),
-inset 0 1px 1px rgba(255,255,255,.05);
+backdrop-filter:blur(20px);
+border-radius:34px;
+border:1px solid rgba(255,255,255,.08);
+padding:24px;
+overflow:auto;
 }
 
 .title{
@@ -133,58 +162,13 @@ font-weight:900;
 margin-bottom:20px;
 }
 
-.lab{
-position:relative;
-height:650px;
-border-radius:28px;
-background:
-linear-gradient(135deg,#0c1728,#09111d);
-overflow:hidden;
-}
-
-svg{
-width:100%;
-height:100%;
-}
-
-.glow{
-filter:drop-shadow(0 0 10px #34d6ff)
-drop-shadow(0 0 25px #34d6ff);
-}
-
-.electron{
-animation:flow 2s linear infinite;
-}
-
-@keyframes flow{
-0%{
-transform:translateX(0);
-opacity:0;
-}
-50%{
-opacity:1;
-}
-100%{
-transform:translateX(700px);
-opacity:0;
-}
-}
-
-.controls{
-display:grid;
-gap:20px;
-}
-
 .control{
-padding:20px;
-background:rgba(255,255,255,.03);
-border-radius:22px;
-border:1px solid rgba(255,255,255,.06);
+margin-bottom:24px;
 }
 
 .control label{
 display:block;
-margin-bottom:14px;
+margin-bottom:12px;
 font-size:18px;
 font-weight:700;
 }
@@ -196,8 +180,8 @@ accent-color:#34d6ff;
 
 select{
 width:100%;
-padding:15px;
-background:#0c1728;
+padding:16px;
+background:#091321;
 border:none;
 border-radius:16px;
 color:white;
@@ -207,12 +191,13 @@ font-size:17px;
 .buttons{
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap:15px;
+gap:12px;
+margin-top:18px;
 }
 
 button{
-border:none;
 padding:18px;
+border:none;
 border-radius:18px;
 font-size:18px;
 font-weight:800;
@@ -226,11 +211,11 @@ background:linear-gradient(90deg,#00ff99,#00d47f);
 }
 
 .stop{
-background:linear-gradient(90deg,#ff4d6d,#ff234f);
+background:linear-gradient(90deg,#ff3d6e,#ff0055);
 }
 
 .reset{
-background:linear-gradient(90deg,#34d6ff,#4d7dff);
+background:linear-gradient(90deg,#34d6ff,#4876ff);
 }
 
 button:hover{
@@ -240,49 +225,59 @@ transform:translateY(-3px) scale(1.03);
 .stats{
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:15px;
+gap:14px;
+margin-top:22px;
 }
 
-.stat{
-padding:28px;
+.card{
+padding:24px;
 border-radius:24px;
-background:rgba(255,255,255,.03);
-border:1px solid rgba(255,255,255,.06);
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.08);
 text-align:center;
 }
 
-.stat h3{
-color:var(--muted);
+.card h3{
+color:#8ea7c5;
 margin-bottom:10px;
-font-size:17px;
 }
 
-.stat p{
+.card p{
 font-size:42px;
 font-weight:900;
 }
 
 .scope{
-margin-top:20px;
+margin-top:24px;
 background:black;
-border-radius:24px;
-padding:15px;
-border:2px solid rgba(255,255,255,.08);
-height:260px;
-position:relative;
+border-radius:26px;
 overflow:hidden;
+height:260px;
+border:2px solid rgba(255,255,255,.08);
+position:relative;
 }
 
-canvas{
+.scope::before{
+content:'';
+position:absolute;
+inset:0;
+background:
+linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+background-size:40px 40px;
+pointer-events:none;
+}
+
+#oscilloscope{
 width:100%;
 height:100%;
 }
 
 .footer{
-margin-top:25px;
+margin-top:14px;
 text-align:center;
-color:var(--muted);
-font-size:18px;
+color:#7890ae;
+font-size:17px;
 }
 
 </style>
@@ -291,150 +286,36 @@ font-size:18px;
 
 <body>
 
-<div class="container">
+<canvas id="bg3d"></canvas>
+
+<div class="overlay"></div>
+<div class="grid"></div>
+
+<div class="ui">
 
 <div class="topbar">
 
 <div class="brand">
 <h1>ALI HAZIM ULTRA</h1>
-<p>Advanced Realistic RC Physics Laboratory</p>
+<p>Ultimate Realistic RC Physics Laboratory</p>
 </div>
 
-<div class="tags">
-<div class="tag">👨‍🏫 إعداد الأستاذ سيف</div>
-<div class="tag">🧠 إعداد الطالب ALI HAZIM</div>
+<div class="badges">
+<div class="badge">👨‍🏫 إعداد الأستاذ سيف</div>
+<div class="badge">🧠 إعداد الطالب ALI HAZIM</div>
 </div>
 
 </div>
 
-<div class="layout">
-
-<div class="panel">
-
-<div class="title">⚡ محاكاة فيزيائية واقعية</div>
+<div class="main">
 
 <div class="lab">
-
-<svg viewBox="0 0 1200 700">
-
-<defs>
-
-<linearGradient id="wireGlow" x1="0" x2="1">
-<stop offset="0%" stop-color="#34d6ff"/>
-<stop offset="100%" stop-color="#4d7dff"/>
-</linearGradient>
-
-<linearGradient id="metal" x1="0" x2="1">
-<stop offset="0%" stop-color="#f2f7ff"/>
-<stop offset="100%" stop-color="#8bdfff"/>
-</linearGradient>
-
-</defs>
-
-<!-- wires -->
-
-<line x1="180" y1="350" x2="980" y2="350"
-stroke="url(#wireGlow)"
-stroke-width="8"
-class="glow"/>
-
-<!-- battery -->
-
-<rect x="70" y="240" width="90" height="210"
-rx="24"
-fill="#18283f"
-stroke="#2d4566"
-stroke-width="4"/>
-
-<rect x="95" y="265" width="40" height="160"
-rx="14"
-fill="#18ff9c"
-filter="url(#glow)"/>
-
-<rect x="103" y="220" width="24" height="20"
-rx="6"
-fill="#dbe9ff"/>
-
-<!-- capacitor -->
-
-<rect x="520" y="190" width="18" height="300"
-rx="12"
-fill="url(#metal)"
-class="glow"/>
-
-<rect x="585" y="190" width="18" height="300"
-rx="12"
-fill="url(#metal)"
-class="glow"/>
-
-<!-- electric field -->
-
-<g stroke="#d57bff" stroke-width="3">
-
-<line x1="550" y1="220" x2="550" y2="450"/>
-<line x1="570" y1="220" x2="570" y2="450"/>
-<line x1="590" y1="220" x2="590" y2="450"/>
-
-</g>
-
-<!-- switch -->
-
-<rect id="switchBody"
-x="900"
-y="310"
-width="180"
-height="80"
-rx="40"
-fill="#ff9f1a"/>
-
-<circle id="switchKnob"
-cx="955"
-cy="350"
-r="32"
-fill="white"/>
-
-<!-- electrons -->
-
-<circle class="electron" cx="220" cy="350" r="7" fill="#34d6ff"/>
-<circle class="electron" cx="280" cy="350" r="7" fill="#34d6ff"/>
-<circle class="electron" cx="340" cy="350" r="7" fill="#34d6ff"/>
-
-<!-- voltmeter -->
-
-<rect x="350" y="180" width="120" height="120"
-rx="20"
-fill="#111c2d"
-stroke="#2f4666"
-stroke-width="4"/>
-
-<text x="410" y="225"
-fill="#fff"
-font-size="24"
-text-anchor="middle">
-V
-</text>
-
-<text id="voltmeter"
-x="410"
-y="270"
-fill="#18ff9c"
-font-size="34"
-font-weight="bold"
-text-anchor="middle">
-0V
-</text>
-
-</svg>
-
-</div>
-
+<canvas id="simCanvas"></canvas>
 </div>
 
 <div class="panel">
 
-<div class="title">🎛️ لوحة التحكم الفيزيائية</div>
-
-<div class="controls">
+<div class="title">⚡ لوحة التحكم الفيزيائية</div>
 
 <div class="control">
 <label>الجهد الكهربائي</label>
@@ -449,13 +330,13 @@ text-anchor="middle">
 <div class="control">
 <label>المقاومة Ω</label>
 <input type="range" min="1" max="1000" value="100" id="resistance">
-<h2 id="rValue">100 Ω</h2>
+<h2 id="rText">100 Ω</h2>
 </div>
 
 <div class="control">
 <label>السعة µF</label>
 <input type="range" min="100" max="5000" value="2200" id="capacitance">
-<h2 id="cValue">2200 µF</h2>
+<h2 id="cText">2200 µF</h2>
 </div>
 
 <div class="buttons">
@@ -466,32 +347,30 @@ text-anchor="middle">
 
 <div class="stats">
 
-<div class="stat">
-<h3>الجهد</h3>
-<p id="vDisplay">0V</p>
+<div class="card">
+<h3>Voltage</h3>
+<p id="voltageValue">0V</p>
 </div>
 
-<div class="stat">
-<h3>التيار</h3>
-<p id="iDisplay">0A</p>
+<div class="card">
+<h3>Current</h3>
+<p id="currentValue">0A</p>
 </div>
 
-<div class="stat">
-<h3>المقاومة</h3>
-<p id="rDisplay">100Ω</p>
+<div class="card">
+<h3>Resistance</h3>
+<p id="resistanceValue">100Ω</p>
 </div>
 
-<div class="stat">
-<h3>السعة</h3>
-<p id="cDisplay">2200</p>
+<div class="card">
+<h3>Capacitance</h3>
+<p id="capacitanceValue">2200</p>
 </div>
 
 </div>
 
 <div class="scope">
-<canvas id="scope"></canvas>
-</div>
-
+<canvas id="oscilloscope"></canvas>
 </div>
 
 </div>
@@ -499,110 +378,280 @@ text-anchor="middle">
 </div>
 
 <div class="footer">
-ALI HAZIM ULTRA — Realistic Scientific RC Laboratory
+ALI HAZIM ULTRA — ULTIMATE ENGINEERING SIMULATION
 </div>
 
 </div>
 
 <script>
 
-const resistance=document.getElementById('resistance');
-const capacitance=document.getElementById('capacitance');
+/*══════════════════════════════
+THREE JS BACKGROUND
+══════════════════════════════*/
 
-resistance.oninput=()=>{
-document.getElementById('rValue').innerText=resistance.value+' Ω';
-document.getElementById('rDisplay').innerText=resistance.value+'Ω';
-};
+const scene = new THREE.Scene();
 
-capacitance.oninput=()=>{
-document.getElementById('cValue').innerText=capacitance.value+' µF';
-document.getElementById('cDisplay').innerText=capacitance.value;
-};
+const camera = new THREE.PerspectiveCamera(
+60,
+window.innerWidth/window.innerHeight,
+0.1,
+1000
+);
 
-const canvas=document.getElementById('scope');
-const ctx=canvas.getContext('2d');
+camera.position.z = 15;
 
-canvas.width=900;
-canvas.height=240;
+const renderer = new THREE.WebGLRenderer({
+canvas:document.getElementById('bg3d'),
+alpha:true,
+antialias:true
+});
+
+renderer.setSize(window.innerWidth,window.innerHeight);
+
+const geometry = new THREE.BufferGeometry();
+
+const vertices = [];
+
+for(let i=0;i<4000;i++){
+
+vertices.push(
+(Math.random()-0.5)*100,
+(Math.random()-0.5)*100,
+(Math.random()-0.5)*100
+);
+
+}
+
+geometry.setAttribute(
+'position',
+new THREE.Float32BufferAttribute(vertices,3)
+);
+
+const material = new THREE.PointsMaterial({
+color:0x34d6ff,
+size:0.08
+});
+
+const stars = new THREE.Points(geometry,material);
+
+scene.add(stars);
+
+function animate3D(){
+
+requestAnimationFrame(animate3D);
+
+stars.rotation.y += 0.0008;
+stars.rotation.x += 0.0003;
+
+renderer.render(scene,camera);
+
+}
+
+animate3D();
+
+/*══════════════════════════════
+RC SIMULATION
+══════════════════════════════*/
+
+const sim = document.getElementById('simCanvas');
+const ctx = sim.getContext('2d');
+
+function resize(){
+
+sim.width = sim.parentElement.clientWidth;
+sim.height = sim.parentElement.clientHeight;
+
+}
+
+resize();
+window.onresize = resize;
 
 let running=false;
 let t=0;
 
-function drawScope(v){
+const resistance=document.getElementById('resistance');
+const capacitance=document.getElementById('capacitance');
 
-ctx.fillStyle='black';
-ctx.fillRect(0,0,canvas.width,canvas.height);
+resistance.oninput=()=>{
+document.getElementById('rText').innerText=
+resistance.value+' Ω';
 
-ctx.strokeStyle='rgba(255,255,255,.08)';
+document.getElementById('resistanceValue').innerText=
+resistance.value+'Ω';
+};
 
-for(let i=0;i<canvas.width;i+=40){
-ctx.beginPath();
-ctx.moveTo(i,0);
-ctx.lineTo(i,canvas.height);
-ctx.stroke();
-}
+capacitance.oninput=()=>{
+document.getElementById('cText').innerText=
+capacitance.value+' µF';
 
-for(let i=0;i<canvas.height;i+=40){
-ctx.beginPath();
-ctx.moveTo(0,i);
-ctx.lineTo(canvas.width,i);
-ctx.stroke();
-}
+document.getElementById('capacitanceValue').innerText=
+capacitance.value;
+};
 
-ctx.beginPath();
+function drawLab(v){
+
+ctx.clearRect(0,0,sim.width,sim.height);
+
+const grd=ctx.createLinearGradient(0,0,0,sim.height);
+grd.addColorStop(0,'#091321');
+grd.addColorStop(1,'#050b13');
+
+ctx.fillStyle=grd;
+ctx.fillRect(0,0,sim.width,sim.height);
+
+/* wires */
 
 ctx.strokeStyle='#34d6ff';
-ctx.lineWidth=4;
+ctx.lineWidth=8;
+ctx.shadowBlur=20;
+ctx.shadowColor='#34d6ff';
 
-for(let x=0;x<canvas.width;x++){
+ctx.beginPath();
+ctx.moveTo(180,300);
+ctx.lineTo(1000,300);
+ctx.stroke();
 
-let y=canvas.height-(v*Math.exp(-x/220))*8;
+ctx.shadowBlur=0;
 
-if(x===0) ctx.moveTo(x,y);
-else ctx.lineTo(x,y);
+/* realistic battery */
 
-}
+ctx.fillStyle='#121c2e';
+ctx.fillRect(70,160,120,280);
 
+ctx.fillStyle='#18ff9c';
+ctx.fillRect(105,210,50,170);
+
+ctx.fillStyle='#dceeff';
+ctx.fillRect(115,130,30,30);
+
+/* capacitor */
+
+const metal=ctx.createLinearGradient(0,0,80,0);
+metal.addColorStop(0,'#f8ffff');
+metal.addColorStop(.5,'#8bdfff');
+metal.addColorStop(1,'#dff8ff');
+
+ctx.fillStyle=metal;
+
+ctx.fillRect(520,110,22,380);
+ctx.fillRect(610,110,22,380);
+
+/* electric field */
+
+ctx.strokeStyle='rgba(213,123,255,.8)';
+ctx.lineWidth=2;
+
+for(let i=0;i<12;i++){
+
+ctx.beginPath();
+ctx.moveTo(545+i*7,150);
+ctx.lineTo(545+i*7,450);
 ctx.stroke();
 
 }
 
-function startSim(){
+/* switch */
 
-running=true;
+ctx.fillStyle=running?'#18ff9c':'#ff9f1a';
 
-document.getElementById('switchBody').style.fill='#18ff9c';
-document.getElementById('switchKnob').setAttribute('cx','1020');
+ctx.beginPath();
+ctx.roundRect(900,240,180,90,45);
+ctx.fill();
 
-simulate();
+ctx.fillStyle='white';
+
+ctx.beginPath();
+ctx.arc(running?1030:950,285,32,0,Math.PI*2);
+ctx.fill();
+
+/* electrons */
+
+ctx.shadowBlur=25;
+ctx.shadowColor='#34d6ff';
+
+for(let i=0;i<16;i++){
+
+ctx.beginPath();
+
+ctx.arc(
+220+i*55+(running?(Date.now()/8%55):0),
+300,
+6,
+0,
+Math.PI*2
+);
+
+ctx.fillStyle='#34d6ff';
+ctx.fill();
 
 }
 
-function stopSim(){
+ctx.shadowBlur=0;
 
-running=false;
+/* display */
 
-document.getElementById('switchBody').style.fill='#ff9f1a';
-document.getElementById('switchKnob').setAttribute('cx','955');
+ctx.fillStyle='#ffffff';
+ctx.font='bold 38px Tajawal';
+
+ctx.fillText(v.toFixed(2)+'V',350,150);
+
+}
+
+const osc=document.getElementById('oscilloscope');
+const octx=osc.getContext('2d');
+
+osc.width=900;
+osc.height=260;
+
+function drawOsc(v){
+
+octx.fillStyle='black';
+octx.fillRect(0,0,osc.width,osc.height);
+
+octx.strokeStyle='rgba(255,255,255,.08)';
+
+for(let i=0;i<osc.width;i+=40){
+
+octx.beginPath();
+octx.moveTo(i,0);
+octx.lineTo(i,osc.height);
+octx.stroke();
 
 }
 
-function resetSim(){
+for(let i=0;i<osc.height;i+=40){
 
-running=false;
-
-t=0;
-
-drawScope(0);
-
-document.getElementById('vDisplay').innerText='0V';
-document.getElementById('iDisplay').innerText='0A';
-document.getElementById('voltmeter').textContent='0V';
-
-document.getElementById('switchBody').style.fill='#ff9f1a';
-document.getElementById('switchKnob').setAttribute('cx','955');
+octx.beginPath();
+octx.moveTo(0,i);
+octx.lineTo(osc.width,i);
+octx.stroke();
 
 }
+
+octx.beginPath();
+
+octx.strokeStyle='#34d6ff';
+octx.lineWidth=4;
+
+for(let x=0;x<osc.width;x++){
+
+let y=osc.height-(v*Math.exp(-x/170))*10;
+
+if(x===0)octx.moveTo(x,y);
+else octx.lineTo(x,y);
+
+}
+
+octx.shadowBlur=20;
+octx.shadowColor='#34d6ff';
+
+octx.stroke();
+
+octx.shadowBlur=0;
+
+}
+
+/* physics */
 
 function simulate(){
 
@@ -615,13 +664,14 @@ const C=parseFloat(capacitance.value)/1000000;
 const voltage=V*(1-Math.exp(-t/(R*C)));
 const current=(V/R)*Math.exp(-t/(R*C));
 
-document.getElementById('vDisplay').innerText=voltage.toFixed(2)+'V';
-document.getElementById('iDisplay').innerText=current.toFixed(2)+'A';
+document.getElementById('voltageValue').innerText=
+voltage.toFixed(2)+'V';
 
-document.getElementById('voltmeter').textContent=
-voltage.toFixed(1)+'V';
+document.getElementById('currentValue').innerText=
+current.toFixed(2)+'A';
 
-drawScope(voltage);
+drawLab(voltage);
+drawOsc(voltage);
 
 t+=0.05;
 
@@ -629,7 +679,34 @@ requestAnimationFrame(simulate);
 
 }
 
-drawScope(0);
+function startSim(){
+
+running=true;
+simulate();
+
+}
+
+function stopSim(){
+
+running=false;
+
+}
+
+function resetSim(){
+
+running=false;
+t=0;
+
+document.getElementById('voltageValue').innerText='0V';
+document.getElementById('currentValue').innerText='0A';
+
+drawLab(0);
+drawOsc(0);
+
+}
+
+drawLab(0);
+drawOsc(0);
 
 </script>
 
