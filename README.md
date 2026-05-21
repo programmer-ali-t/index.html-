@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>تجربة فاراداي - الأستاذ سيف الربيعي</title>
+  <title>Faraday Ultra Realistic Lab - الأستاذ سيف الربيعي</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">  <style>
@@ -382,12 +382,15 @@
       width: 180px;
       height: 520px;
       top: 120px;
-      background: linear-gradient(180deg, #f4f4f4, #b8bcc4);
+      background:
+        linear-gradient(180deg, #ffffff 0%, #f2f2f2 8%, #cfd3d9 40%, #aeb5bf 70%, #e8ebef 100%);
       border-radius: 20px;
       box-shadow:
-        inset 0 0 18px rgba(255,255,255,0.5),
-        inset 0 -10px 20px rgba(0,0,0,0.25),
-        0 25px 40px rgba(0,0,0,0.35);
+        inset 0 0 30px rgba(255,255,255,0.75),
+        inset 0 -18px 30px rgba(0,0,0,0.28),
+        inset 0 12px 20px rgba(255,255,255,0.35),
+        0 35px 60px rgba(0,0,0,0.45),
+        0 0 25px rgba(255,255,255,0.08);
       overflow: hidden;
     }
 
@@ -420,7 +423,8 @@
       bottom: 90px;
       right: 170px;
       border-radius: 18px;
-      background: linear-gradient(180deg, #e4bb30, #b88300);
+      background:
+      linear-gradient(180deg, #ffd85a 0%, #ffbf1d 15%, #d69700 45%, #9e6d00 100%);
       box-shadow:
         inset 0 0 25px rgba(255,255,255,0.25),
         0 30px 50px rgba(0,0,0,0.4);
@@ -989,7 +993,9 @@
     </svg>
 
     <div class="footer-note">
-      تم تطوير هذا التصميم بأسلوب احترافي متقدم يحاكي المختبرات التعليمية الحديثة.
+      Ultra Realistic Physics Interface • Real Laboratory Simulation • Premium Scientific UI
+      <br>
+      إعداد الأستاذ سيف الربيعي — الطالب علي حازم
     </div>
 
   </div>
@@ -1228,6 +1234,25 @@
     }
 
     setInterval(createAmbientGlow, 800);
+
+    // Ultra realistic cinematic lighting system
+
+    const cinematicOverlay = document.createElement('div');
+    cinematicOverlay.style.position = 'absolute';
+    cinematicOverlay.style.inset = '0';
+    cinematicOverlay.style.pointerEvents = 'none';
+    cinematicOverlay.style.background = 'radial-gradient(circle at center, rgba(255,255,255,0.04), transparent 60%)';
+    cinematicOverlay.style.mixBlendMode = 'screen';
+    cinematicOverlay.style.opacity = '0.8';
+
+    simulationArea.appendChild(cinematicOverlay);
+
+    setInterval(() => {
+
+      const intensity = 0.7 + Math.random() * 0.2;
+      cinematicOverlay.style.opacity = intensity;
+
+    }, 1200);
 
     // Dynamic lighting effect
 
